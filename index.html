@@ -33,10 +33,10 @@
 <div class="percent" id="percent"></div>
 
 <script>
-  const endTime = new Date("2025-12-27T16:00:00").getTime();
+  const endTime = new Date("2025-12-27T14:00:00").getTime();
 
   // 65 часов в миллисекундах
-  const totalDuration = 65 * 60 * 60 * 1000;
+  const totalDuration = 32.5 * 60 * 60 * 1000;
   const startTime = endTime - totalDuration;
 
   function updateTimer() {
@@ -62,7 +62,7 @@
     if (percent > 100) percent = 100;
 
     document.getElementById("percent").textContent =
-      `Прогресс: ${percent.toFixed(10)}%`;
+      `Прогресс: ${percent.toFixed(6)}%`;
   }
 
   updateTimer();
