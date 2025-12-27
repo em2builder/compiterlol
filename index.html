@@ -96,7 +96,16 @@
 <!-- ===== FIREBASE REALTIME DATABASE ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded } 
+import {
+  getDatabase,
+  ref,
+  push,
+  onChildAdded,
+  get,
+  set,
+  onValue
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
 from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
 const firebaseConfig = {
@@ -133,8 +142,6 @@ onChildAdded(commentsRef, snapshot => {
 
 <!-- ===== ТАЙМЕР ===== -->
 <script>
-  import { get, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-
 const totalDuration = 90000 * 1000;
 const bestEnd = new Date("2025-12-28T13:00:00").getTime();
 const worstEnd = new Date("2025-12-28T17:00:00").getTime();
