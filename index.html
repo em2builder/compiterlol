@@ -4,6 +4,23 @@
 <meta charset="UTF-8">
 <title>Счётчик и чат</title>
 <style>
+
+.clicker {
+  background: rgba(0,0,0,0.4);
+  border-radius: 18px;
+  padding: 20px;
+  max-width: 420px;
+  margin: 30px auto;
+}
+.clicker h3 {
+  margin-top: 0;
+}
+.click-count {
+  font-size: 28px;
+  margin: 10px 0;
+  color: #4fc3f7;
+}
+
   body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -61,6 +78,12 @@
   <div class="bar"><div class="fill worst" id="barWorst"></div></div>
 </div>
 
+<div class="clicker">
+  <h3>Кликер</h3>
+  <div class="click-count" id="clickCount">0</div>
+  <button onclick="addClick()">Клик</button>
+</div>
+  
 <div class="comments">
   <h3>Комментарии</h3>
   <p>Лимит: имя - 15 символов, комментарий - 100 символов.</p>
@@ -110,6 +133,8 @@ onChildAdded(commentsRef, snapshot => {
 
 <!-- ===== ТАЙМЕР ===== -->
 <script>
+  import { get, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
 const totalDuration = 90000 * 1000;
 const bestEnd = new Date("2025-12-28T13:00:00").getTime();
 const worstEnd = new Date("2025-12-28T17:00:00").getTime();
@@ -142,6 +167,29 @@ function update(){
 }
 update();
 setInterval(update,1000);
+
+  const clickRef = ref(db, "clicker/count");
+
+// Инициализация, если счётчика нет
+get(clickRef).then(snap => {
+  if (!snap.exists()) set(clickRef, 0);
+});
+
+// Добавить клик
+window.addClick = async () => {
+  const snap = await get(clickRef);
+  const current = snap.exists() ? snap.val() : 0;
+  set(clickRef, current + 1);
+};
+
+// Реальное время
+onChildAdded(ref(db, "clicker"), () => {});
+import { onValue } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+onValue(clickRef, snapshot => {
+  document.getElementById("clickCount").textContent = snapshot.val() ?? 0;
+});
+
 </script>
 
 </body>
